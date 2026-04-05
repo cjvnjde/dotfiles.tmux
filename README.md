@@ -86,51 +86,102 @@ Inside tmux:
 prefix + I
 ```
 
-## tpm-redux keybindings
-
-- `prefix + I` → install plugins
-- `prefix + U` → update plugins
-- `prefix + Alt-u` → clean unused plugins
-
 ## tmux basics
 
-Create or attach to a session:
+Create or attach to a session from your shell:
 
 ```bash
 tmux new-session -A -s main
 ```
 
-Useful commands:
+Useful shell commands:
 
 - `tmux ls` → list sessions
 - `tmux attach -t main` → attach to a session
 - `tmux kill-session -t main` → kill a session
-
-Inside tmux:
-
-- `prefix + d` → detach
-- `prefix + ,` → rename current window
-- `prefix + $` → rename current session
+- `tmux source-file ~/.config/tmux/tmux.conf` → reload config from the shell
 
 ## Keybindings in this config
 
-### Pane and window movement
+In this config, `prefix` is the default tmux prefix: `Ctrl-b`.
+
+These are the custom bindings actually defined in `tmux.conf`:
+
+### Pane and window navigation
 
 - `prefix + h/j/k/l` → move between panes with Vim keys
 - `Alt + Left/Right/Up/Down` → move between panes without prefix
-- `Shift + Left/Right` → move to previous/next window
-- `Alt + Shift + H/L` → move to previous/next window
+- `Shift + Left/Right` → previous/next window without prefix
+- `Alt + Shift + H/L` → previous/next window without prefix
 
 ### Splits and windows
 
 - `prefix + "` → split the current pane top/bottom
 - `prefix + %` → split the current pane left/right
-- `prefix + c` → create a new window
+- `prefix + c` → create a new window in the current pane's working directory
 
-Splits and new windows open in the current pane's working directory.
+## Useful default tmux shortcuts
+
+These are standard tmux shortcuts you can use even though they are not customized here.
+
+### Sessions
+
+- `prefix + d` → detach from the current session
+- `prefix + s` → choose a session
+- `prefix + $` → rename the current session
+
+### Windows / tabs
+
+In tmux, a “tab” is a window.
+
+- `prefix + c` → create a new window
+- `prefix + n` → next window
+- `prefix + p` → previous window
+- `prefix + 0..9` → jump to a specific window number
+- `prefix + w` → choose a window
+- `prefix + ,` → rename the current window
+- `prefix + &` → close the current window
+
+### Panes
+
+- `prefix + "` → split vertically
+- `prefix + %` → split horizontally
+- `prefix + arrow keys` → move between panes
+- `prefix + o` → go to the next pane
+- `prefix + ;` → switch to the last active pane
+- `prefix + x` → close the current pane
+- `prefix + z` → zoom/unzoom the current pane
+- `prefix + q` → show pane numbers
+
+### Copy mode
+
+- `prefix + [` → enter copy mode
+- `prefix + ]` → paste from tmux buffer
+
+### Floating popup window
+
+There is no dedicated popup keybinding in the current `tmux.conf`, but on tmux versions that support popups you can open one with the command prompt:
+
+```text
+prefix + :
+display-popup -E -d "#{pane_current_path}"
+```
+
+Or from your shell:
+
+```bash
+tmux display-popup -E
+```
+
+## Plugin manager
+
+- `prefix + I` → install plugins
+- `prefix + U` → update plugins
+- `prefix + Alt-u` → clean unused plugins
 
 ## Notes
 
 - Mouse support is enabled.
 - Windows and panes start at index `1` instead of `0`.
+- New windows and splits open in the current pane's working directory.
 - The `run '~/.tmux/plugins/tpm-redux/tpm'` line should stay at the bottom of `tmux.conf`.
